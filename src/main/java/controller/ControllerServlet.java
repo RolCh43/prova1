@@ -74,37 +74,40 @@ public class ControllerServlet extends HttpServlet {
 	}
 
 	private void poeDadosNaSessao(HttpSession session) {
-		/*
-		 *  Aqui, você consulta o banco de dados obtendo uma instância da classe
-		 *  (singleton) Db. Com ela, você pode obter uma lista com todos os dto's contendo
-		 *  os contatos no banco de dados.
-		 *  Aqui, você inclui essa lista na sessão.
-		 */
+		Db db = Db.getInstance();
+		ArrayList<AulaDto> aulas = db.findAll();
+		session.setAttribute("aulas", aulas);
 	}
 
 	private void reset() {
-		/*
-		 * 	Aqui, você restaura os valores default no banco de dados (para efeito de testes)
-		 */
+		Db db = Db.getInstance();
+		db.reset();
 	}
 
 	private void create(HttpServletRequest request) {
-		/*
-		 * 	Primeiro, você recupera (de request) os parâmetros enviados via AJAX, que são:
-		 * 	- codDisciplina,
-		 * 	- assunto,
-		 * 	- duracao,
-		 * 	- data,
-		 * 	- horario
-		 * 	Então, você cria um dto contendo esses dados e o invia ao banco de dados.
-		 */
+		String codDisciplina = request.getParameter("codDisciplina");
+		String assunto = request.getParameter("assunto");
+		String duracao = request.getParameter("duracao");
+		String data = request.getParameter("data");
+		String horario = request.getParameter("horario");
+
+		AulaDto dto = new AulaDto();
+		dto.codDisciplina = codDisciplina;
+		dto.assunto = assunto;
+		dto.duracao = duracao;
+		dto.data = data;
+		dto.horario = horario;
+
+		Db db = Db.getInstance();
+		db.create(dto);
 	}
 
 	private void delete(HttpServletRequest request) {
-		/*
-		 * 	Recupere (de request) o parâmetro id e o use para remover a aula do banco de dados.
-		 */
+		String id = request.getParameter("id");
+		Db db = Db.getInstance();
+		db.delete(id);
 	}
+
 
 	private void getAula(HttpServletRequest request, HttpServletResponse response) {
 		/*
@@ -130,19 +133,24 @@ public class ControllerServlet extends HttpServlet {
 	}
 	
 	private void update(HttpServletRequest request) {
-		/*
-		 * 	Este método faz atualização do registro de uma aula.
-		 * 	Primeiro, recupere (de request) os parâmetros enviados:
-		 * 	- id
-		 * 	- codDisciplina,
-		 * 	- assunto,
-		 * 	- duracao,
-		 * 	- data,
-		 * 	- horario
-		 * 	Depois crie um dto com eles, e o envie ao banco de dados.
-		 */
-	}
+		String id = request.getParameter("id");
+		String codDisciplina = request.getParameter("codDisciplina");
+		String assunto = request.getParameter("assunto");
+		String duracao = request.getParameter("duracao");
+		String data = request.getParameter("data");
+		String horario = request.getParameter("horario");
 
+		AulaDto dto = new AulaDto();
+		dto.id = id;
+		dto.codDisciplina = codDisciplina;
+		dto.assunto = assunto;
+		dto.duracao = duracao;
+		dto.data = data;
+		dto.horario = horario;
+
+		Db db = Db.getInstance();
+		db.update(dto);
+	}
 }
 
 
