@@ -3,11 +3,20 @@
 
 // RESET
 reset = function() {
-	// Aqui você cria uma requisição AJAX POST a ControllerServlet
-	// Você repassa, com a chave 'op' o parâmetro 'RESET'
-	// Se a requisição for bem sucedida, você executa:
-	// atualizaSessao() e window.location.href = "/prova1".
-	// Se não for bem sucedida, decida o que fazer.
+	// Cria uma requisição AJAX POST a ControllerServlet
+	let req = new XMLHttpRequest();
+	req.open("POST", "ControllerServlet", true);
+	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	req.onreadystatechange = () => {
+		if (req.readyState == 4 && req.status == 200) {
+			atualizaSessao();
+			window.location.href = "/prova1";
+		} else {
+			// O QUE FAZER SE DEU ERRADO
+			console.error("Erro ao resetar");
+		}
+	}
+	req.send("op=RESET");
 }
 
 // NOVA AULA
@@ -16,7 +25,7 @@ novaAula = function() {
 }
 
 // CANCELA NOVA AULA (OU EDIÇÃO)
-calcelarNovaAula = function() {
+cancelarNovaAula = function() {
 	window.location.href = "/prova1";
 }
 
@@ -27,25 +36,34 @@ editarAula = function(id) {
 
 // ENVIA CONTEÚDO DA NOVA AULA
 enviarNovaAula = function() {
-	// obtém os valores a partir do formulário
+	// Obtém os valores a partir do formulário
 	let data = document.getElementById('data-id').value;
 	let horario = document.getElementById('hora-id').value;
 	let duracao = document.getElementById('dur-id').value;
 	let codDisciplina = document.getElementById('disc-id').value;
 	let assunto = document.getElementById('ass-id').value;
-	// verificando a validação
+	
+	// Verificando a validação
 	if (!validaNovaAula(data, horario, duracao, codDisciplina, assunto)) {
         document.getElementById('msg-id').style.display = 'block';
         return;
     }
-    // Aqui, você faz uma requisição AJAX POST a ControllerServlet e
-    // envia a chave 'op' valendo 'CREATE'. Envie, do mesmo modo, os parâmetros
-    // data, horario, duracao, codDisciplina e assunto.
-    // Se a requisição for bem sucedida, execute atualizaSessao() e
-    // window.location.href = "/prova1"
-    // Se não for bem sucedida, decida o que fazer
+	
+	// Cria uma requisição AJAX POST a ControllerServlet
+	let req = new XMLHttpRequest();
+	req.open("POST", "ControllerServlet", true);
+	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	req.onreadystatechange = () => {
+		if (req.readyState == 4 && req.status == 200) {
+			atualizaSessao();
+			window.location.href = "/prova1";
+		} else {
+			// O QUE FAZER SE DEU ERRADO
+			console.error("Erro ao enviar nova aula");
+		}
+	}
+	req.send(`op=CREATE&data=${data}&horario=${horario}&duracao=${duracao}&codDisciplina=${codDisciplina}&assunto=${assunto}`);
 }
-
 // ENVIA CONTEÚDO EM EDIÇÃO
 enviarEdit = function() {
 	// Obtém os valores a partir do formulário
