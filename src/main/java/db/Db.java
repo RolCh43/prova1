@@ -141,17 +141,19 @@ public class Db {
 
  // CRUD CREATE
     public void create(AulaDto dto) {
-        String query = "INSERT INTO AULA (COD_DISCIPLINA, ASSUNTO, DURACAO, DATA, HORARIO) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO AULA (COD_DISCIPLINA, ASSUNTO, DURACAO, DATA, HORARIO) "
+                     + "VALUES (?,?,?,?,?)";
         try {
-            PreparedStatement pst = this.connection.prepareStatement(query);
-            pst.setInt(1, Integer.parseInt(dto.codDisciplina));
+            PreparedStatement pst = connection.prepareStatement(query);
+            pst.setString(1, dto.codDisciplina);
             pst.setString(2, dto.assunto);
-            pst.setInt(3, Integer.parseInt(dto.duracao));
+            pst.setString(3, dto.duracao);
             pst.setString(4, dto.data);
             pst.setString(5, dto.horario);
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            pst.execute();
+        } catch (Exception e) {
+            // TODO: o que fazer se deu errado
+            System.out.println("Erro ao criar registro");
         }
     }
 

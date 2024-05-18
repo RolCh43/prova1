@@ -14,7 +14,7 @@
 </header>
 <nav class="container-nav">
     <div class="btn-nav" onclick="enviarNovaAula()">ENVIAR</div>
-    <div class="btn-nav" onclick="calcelarNovaAula()">CANCELAR</div>
+    <div class="btn-nav" onclick="cancelarNovaAula()">CANCELAR</div>
 </nav>
 
 <div class="container-geral">

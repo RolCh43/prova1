@@ -73,12 +73,15 @@ public class ControllerServlet extends HttpServlet {
 		}
 	}
 
-	private void poeDadosNaSessao(HttpSession session) {
+private void poeDadosNaSessao(HttpSession session) {	
+		
 		Db db = Db.getInstance();
+		
 		ArrayList<AulaDto> aulas = db.findAll();
-		session.setAttribute("aulas", aulas);
+		
+		session.setAttribute("lista", aulas);
+	
 	}
-
 	private void reset() {
 		Db db = Db.getInstance();
 		db.reset();
